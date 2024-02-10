@@ -1,0 +1,59 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  height: 100dhv;
+  font-family: sans-serif;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow: scroll;
+  position: relative;
+  background-color: #f6f6f6;
+  padding: 16px;
+}
+
+.message {
+  padding: 8px;
+  border-radius: 15px;
+}
+
+.guest {
+  align-self: flex-start;
+  background-color: #fff;
+}
+
+.user {
+  background-color: #0347e5;
+  align-self: flex-end;
+  color: #fff;
+}
+
+form {
+  border-top: 2px solid #ddd;
+  padding: 16px;
+}
+
+input {
+  display: block;
+  width: 100%;
+  height: 45px;
+  border-radius: 100px;
+  border: 1px solid #666;
+  padding: 16px;
+  font-size: 16px;
+}
