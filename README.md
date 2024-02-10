@@ -1,1 +1,3 @@
-# KeyboardAvoidingView: Exemplos Práticos
+# KeyboardAvoidingView
+
+Exemplos práticos com KeyboardAvoidingView e alternativas.
