@@ -1,320 +1,106 @@
-import React from 'react';
-import {View, Button, Text, ScrollView, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, Button, Text, Switch, StyleSheet} from 'react-native';
+import Select from 'react-native-picker-select';
 import {ScreenProps, DemoScreenProps} from './types';
+import {Field} from '../Field';
+
+const FORM_FIELDS = {
+  SOLUCAO: [
+    {label: 'useKeyboardHeight', value: 'useKeyboardHeight'},
+    {label: 'KeyboardAvoidingView', value: 'KeyboardAvoidingView'},
+    {label: 'useAnimatedKeyboard', value: 'useAnimatedKeyboard'},
+  ],
+  ESTRATEGIA: [
+    {label: 'padding', value: 'padding'},
+    {label: 'position', value: 'position'},
+    {label: 'height', value: 'height'},
+  ],
+  CONTEUDO: [
+    {label: 'chat', value: 'chat'},
+    {label: 'webview', value: 'webview'},
+  ],
+};
 
 export function IndexScreen({navigation}: ScreenProps<'Index'>) {
   const push = (options: DemoScreenProps) => () =>
     navigation.navigate('Demo', options);
 
+  const [solucao, setSolucao] =
+    useState<DemoScreenProps['type']>('useKeyboardHeight');
+
+  const [estrategia, setEstrategia] =
+    useState<DemoScreenProps['behavior']>('padding');
+
+  const [conteudo, setConteudo] = useState<DemoScreenProps['content']>('chat');
+
+  const [displayHeader, setDisplayHeader] =
+    useState<DemoScreenProps['hasHeader']>(false);
+
   return (
-    <ScrollView contentContainerStyle={{padding: 20, gap: 40}}>
-      <Text style={styles.title}>ChatApp</Text>
-      <View style={styles.section}>
-        <Text style={styles.heading}>useKeyboardHeight</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'padding',
-            content: 'chat',
-            hasHeader: false,
-          })}
+    <View style={styles.screen}>
+      <Field label="Solução">
+        <Select
+          value={solucao}
+          onValueChange={s => {
+            setSolucao(s);
+
+            if (s === 'useAnimatedKeyboard') {
+              setEstrategia('padding');
+            }
+          }}
+          items={FORM_FIELDS.SOLUCAO}
         />
-        <Button
-          title="Estratégia Position"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'position',
-            content: 'chat',
-            hasHeader: false,
-          })}
+      </Field>
+      <Field label="Estratégia">
+        <Select
+          value={estrategia}
+          onValueChange={setEstrategia}
+          items={
+            solucao === 'useAnimatedKeyboard'
+              ? [FORM_FIELDS.ESTRATEGIA[0]]
+              : FORM_FIELDS.ESTRATEGIA
+          }
         />
-        <Button
-          title="Estratégia Height"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'height',
-            content: 'chat',
-            hasHeader: false,
-          })}
+      </Field>
+      <Field label="Conteúdo">
+        <Select
+          value={conteudo}
+          onValueChange={setConteudo}
+          items={FORM_FIELDS.CONTEUDO}
         />
+      </Field>
+      <View style={styles.switch}>
+        <Text style={styles.switchLabel}>Display Header</Text>
+        <Switch value={displayHeader} onValueChange={setDisplayHeader} />
       </View>
-      <View style={styles.section}>
-        <Text style={styles.heading}>KeyboardAvoidingView</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'padding',
-            content: 'chat',
-            hasHeader: false,
-          })}
-        />
-        <Button
-          title="Estratégia Position"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'position',
-            content: 'chat',
-            hasHeader: false,
-          })}
-        />
-        <Button
-          title="Estratégia Height"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'height',
-            content: 'chat',
-            hasHeader: false,
-          })}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.heading}>useAnimatedKeyboard</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'useAnimatedKeyboard',
-            behavior: 'padding',
-            content: 'chat',
-            hasHeader: false,
-          })}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.heading}>Header + useKeyboardHeight</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'padding',
-            content: 'chat',
-            hasHeader: true,
-          })}
-        />
-        <Button
-          title="Estratégia Position"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'position',
-            content: 'chat',
-            hasHeader: true,
-          })}
-        />
-        <Button
-          title="Estratégia Height"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'height',
-            content: 'chat',
-            hasHeader: true,
-          })}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.heading}>Header + KeyboardAvoidingView</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'padding',
-            content: 'chat',
-            hasHeader: true,
-          })}
-        />
-        <Button
-          title="Estratégia Position"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'position',
-            content: 'chat',
-            hasHeader: true,
-          })}
-        />
-        <Button
-          title="Estratégia Height"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'height',
-            content: 'chat',
-            hasHeader: true,
-          })}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.heading}>Header + useAnimatedKeyboard</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'useAnimatedKeyboard',
-            behavior: 'padding',
-            content: 'chat',
-            hasHeader: true,
-          })}
-        />
-      </View>
-      <Text style={styles.title}>WebView</Text>
-      <View style={styles.section}>
-        <Text style={styles.heading}>useKeyboardHeight</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'padding',
-            content: 'webview',
-            hasHeader: false,
-          })}
-        />
-        <Button
-          title="Estratégia Position"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'position',
-            content: 'webview',
-            hasHeader: false,
-          })}
-        />
-        <Button
-          title="Estratégia Height"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'height',
-            content: 'webview',
-            hasHeader: false,
-          })}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.heading}>KeyboardAvoidingView</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'padding',
-            content: 'webview',
-            hasHeader: false,
-          })}
-        />
-        <Button
-          title="Estratégia Position"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'position',
-            content: 'webview',
-            hasHeader: false,
-          })}
-        />
-        <Button
-          title="Estratégia Height"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'height',
-            content: 'webview',
-            hasHeader: false,
-          })}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.heading}>useAnimatedKeyboard</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'useAnimatedKeyboard',
-            behavior: 'padding',
-            content: 'webview',
-            hasHeader: false,
-          })}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.heading}>Header + useKeyboardHeight</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'padding',
-            content: 'webview',
-            hasHeader: true,
-          })}
-        />
-        <Button
-          title="Estratégia Position"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'position',
-            content: 'webview',
-            hasHeader: true,
-          })}
-        />
-        <Button
-          title="Estratégia Height"
-          onPress={push({
-            type: 'useKeyboardHeight',
-            behavior: 'height',
-            content: 'webview',
-            hasHeader: true,
-          })}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.heading}>Header + KeyboardAvoidingView</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'padding',
-            content: 'webview',
-            hasHeader: true,
-          })}
-        />
-        <Button
-          title="Estratégia Position"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'position',
-            content: 'webview',
-            hasHeader: true,
-          })}
-        />
-        <Button
-          title="Estratégia Height"
-          onPress={push({
-            type: 'KeyboardAvoidingView',
-            behavior: 'height',
-            content: 'webview',
-            hasHeader: true,
-          })}
-        />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.heading}>Header + useAnimatedKeyboard</Text>
-        <Button
-          title="Estratégia Padding"
-          onPress={push({
-            type: 'useAnimatedKeyboard',
-            behavior: 'padding',
-            content: 'webview',
-            hasHeader: true,
-          })}
-        />
-      </View>
-    </ScrollView>
+      <Button
+        title="Gerar"
+        onPress={() =>
+          navigation.navigate('Demo', {
+            type: solucao,
+            behavior: estrategia,
+            content: conteudo,
+            hasHeader: displayHeader,
+          })
+        }
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  section: {
+  screen: {
+    padding: 20,
     gap: 20,
   },
-  title: {
-    fontSize: 30,
-    color: 'black',
-    fontWeight: '900',
-    textAlign: 'center',
+  switch: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
   },
-  heading: {
-    fontSize: 20,
-    fontWeight: '700',
+  switchLabel: {
+    flexGrow: 1,
     color: '#111',
+    fontSize: 18,
   },
 });
