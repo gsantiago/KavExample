@@ -3,6 +3,7 @@ import {
   StyleSheet,
   useWindowDimensions,
   KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 import {useKeyboardHeight} from '../useKeyboardHeight';
 import {ScreenProps, DemoScreenProps} from './types';
@@ -10,6 +11,8 @@ import {Chat} from '../Chat';
 import {HEADER_HEIGHT, Header} from '../Header';
 import {CustomKeyboardAvoidingView} from '../CustomKeyboardAvoidingView';
 import {WebChat} from '../WebChat';
+import {Form} from '../Form';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export function DemoScreen({route: {params}}: ScreenProps<'Demo'>) {
   if (params.type === 'useKeyboardHeight') {
@@ -24,6 +27,10 @@ export function DemoScreen({route: {params}}: ScreenProps<'Demo'>) {
     return <AnimatedKav {...params} />;
   }
 
+  if (params.type === 'KeyboardAwareScrollView') {
+    return <KavScrollView {...params} />;
+  }
+
   return null;
 }
 
@@ -34,7 +41,7 @@ const KeyboardHeight = (params: DemoScreenProps) => {
   const content = (
     <>
       {params.hasHeader && <Header />}
-      {params.content === 'chat' ? <Chat /> : <WebChat />}
+      {getContent(params)}
     </>
   );
 
@@ -73,7 +80,7 @@ const Kav = (params: DemoScreenProps) => {
       contentContainerStyle={{flex: 1}}
       keyboardVerticalOffset={params.hasHeader ? HEADER_HEIGHT : 0}>
       {params.hasHeader && <Header />}
-      {params.content === 'chat' ? <Chat /> : <WebChat />}
+      {getContent(params)}
     </KeyboardAvoidingView>
   );
 };
@@ -84,9 +91,44 @@ const AnimatedKav = (params: DemoScreenProps) => {
   return (
     <CustomKeyboardAvoidingView style={styles.screen}>
       {params.hasHeader && <Header />}
-      {params.content === 'chat' ? <Chat /> : <WebChat />}
+      {getContent(params)}
     </CustomKeyboardAvoidingView>
   );
+};
+
+const KavScrollView = (params: DemoScreenProps) => {
+  return (
+    <View style={{flex: 1}}>
+      {params.hasHeader && <Header />}
+      <KeyboardAwareScrollView contentContainerStyle={{flexGrow: 1}}>
+        {getContent(params)}
+      </KeyboardAwareScrollView>
+    </View>
+  );
+};
+
+const getContent = (params: DemoScreenProps) => {
+  if (params.content === 'chat') {
+    return <Chat />;
+  }
+
+  if (params.content === 'webview') {
+    return <WebChat />;
+  }
+
+  if (params.content === 'form') {
+    if (params.type !== 'KeyboardAwareScrollView') {
+      return (
+        <ScrollView>
+          <Form />
+        </ScrollView>
+      );
+    }
+
+    return <Form />;
+  }
+
+  return null;
 };
 
 const styles = StyleSheet.create({

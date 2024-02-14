@@ -9,6 +9,7 @@ const FORM_FIELDS = {
     {label: 'useKeyboardHeight', value: 'useKeyboardHeight'},
     {label: 'KeyboardAvoidingView', value: 'KeyboardAvoidingView'},
     {label: 'useAnimatedKeyboard', value: 'useAnimatedKeyboard'},
+    {label: 'KeyboardAwareScrollView', value: 'KeyboardAwareScrollView'},
   ],
   ESTRATEGIA: [
     {label: 'padding', value: 'padding'},
@@ -18,6 +19,7 @@ const FORM_FIELDS = {
   CONTEUDO: [
     {label: 'chat', value: 'chat'},
     {label: 'webview', value: 'webview'},
+    {label: 'form', value: 'form'},
   ],
 };
 
