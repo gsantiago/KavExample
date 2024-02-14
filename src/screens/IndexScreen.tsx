@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Button, Text, Switch, StyleSheet} from 'react-native';
+import {View, Button, Text, Switch, StyleSheet, Platform} from 'react-native';
 import Select from 'react-native-picker-select';
 import {ScreenProps, DemoScreenProps} from './types';
 import {Field} from '../Field';
@@ -22,9 +22,6 @@ const FORM_FIELDS = {
 };
 
 export function IndexScreen({navigation}: ScreenProps<'Index'>) {
-  const push = (options: DemoScreenProps) => () =>
-    navigation.navigate('Demo', options);
-
   const [solucao, setSolucao] =
     useState<DemoScreenProps['type']>('useKeyboardHeight');
 
@@ -91,6 +88,7 @@ export function IndexScreen({navigation}: ScreenProps<'Index'>) {
 const styles = StyleSheet.create({
   screen: {
     padding: 20,
+    paddingTop: Platform.select({ios: 50, android: 30}),
     gap: 20,
   },
   switch: {
