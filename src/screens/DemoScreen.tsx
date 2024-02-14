@@ -100,7 +100,9 @@ const KavScrollView = (params: DemoScreenProps) => {
   return (
     <View style={{flex: 1}}>
       {params.hasHeader && <Header />}
-      <KeyboardAwareScrollView contentContainerStyle={{flexGrow: 1}}>
+      <KeyboardAwareScrollView
+        enableOnAndroid
+        contentContainerStyle={{flexGrow: 1}}>
         {getContent(params)}
       </KeyboardAwareScrollView>
     </View>
